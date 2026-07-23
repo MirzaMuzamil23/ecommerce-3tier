@@ -43,14 +43,14 @@ pipeline {
         stage('4 - DOCKER COMPOSE & BUILD CHECK'){
             steps{
                 echo 'Docker compose and build check...'
-                sh 'docker-compose config'
-                sh 'docker-compose build'
+                sh 'docker compose config'
+                sh 'docker compose build'
             }
         }
         stage('5 - INTEGRATION TEST DEPLOYMENT'){
             steps{
                 echo 'Integration test deployment...'
-                sh 'docker-compose up -d'
+                sh 'docker compose up -d'
                 sh 'sleep 30' // Wait for services to start
                 sh 'curl -f http://localhost:4000/health'
 
@@ -60,7 +60,7 @@ pipeline {
     post {
         always {
             echo 'cleaning up...'
-            sh 'docker-compose down -v || true'
+            sh 'docker compose down -v || true'
             cleanWs()
         }
         success {
